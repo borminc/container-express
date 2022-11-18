@@ -15,12 +15,16 @@ class Container {
 		);
 	}
 
-	static register(key, factory, singleton) {
+	static register(key, factory, singleton = false) {
 		return Container.instance.register(key, factory, singleton);
 	}
 
-	static get(key) {
-		return Container.instance.get(key);
+	static get(key, optional = false) {
+		return Container.instance.get(key, optional);
+	}
+
+	static destroy(key) {
+		return Container.instance.destroy(key);
 	}
 
 	/**
@@ -54,11 +58,14 @@ class Container {
 	 * Get a service from the container
 	 *
 	 * @param {string} key
+	 * @param {bool} optional
 	 */
-	get(key) {
+	get(key, optional = false) {
 		const bindings = this.bindings;
 
 		if (bindings[key] === undefined) {
+			if (optional) return undefined;
+
 			throw new Error(`${key} is not registered in the container.`);
 		}
 
@@ -70,6 +77,20 @@ class Container {
 			bindings[key].instance,
 			() => (bindings[key].instance = bindings[key].factory(this))
 		);
+	}
+
+	/**
+	 * Destroy the service in the container
+	 *
+	 * @param {string} key
+	 * @returns {void}
+	 */
+	destroy(key) {
+		if (this.bindings[key] === undefined) {
+			return;
+		}
+
+		delete this.bindings[key];
 	}
 }
 
