@@ -22,7 +22,7 @@ The project structure is organized in modules (see `src/modules`), where each mo
       Example:
 
       ```javascript
-      // in provider
+      // in Provider.register()
       this.container.register('auth', container => new AuthService()); // transient
       this.container.register('auth', container => new AuthService(), true); // singleton
 
