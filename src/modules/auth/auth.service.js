@@ -12,6 +12,7 @@ class AuthService {
 			throw new Unauthorized();
 		}
 
+		// VERIFY: add exp?
 		return jwt.sign(
 			{
 				idk: Math.floor(Math.random() * 1000000), // don't have any data to add, so here's sth ig lol

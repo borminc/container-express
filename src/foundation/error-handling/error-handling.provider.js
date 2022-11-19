@@ -1,7 +1,7 @@
-const BaseProvider = require('../provider');
+const Provider = require('../provider');
 
-class ErrorHandlingProvider extends BaseProvider {
-	boot() {
+class ErrorHandlingProvider extends Provider {
+	booted() {
 		this.app.express.use(this.handleError);
 	}
 

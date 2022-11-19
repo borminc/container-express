@@ -1,20 +1,14 @@
 const App = require('./app');
-const Container = require('./container');
 
 /**
  * Generic "Service" class
  *
  * Any class that needs access to the application instance (this.app)
- * and container (this.container) can extend from this class.
+ * and container (this.container) can extend this class.
  */
 class Service {
-	/**
-	 * @type {App}
-	 */
-	app;
-
 	constructor() {
-		this.app = Container.get('app');
+		this.app = App.instance;
 	}
 
 	get container() {

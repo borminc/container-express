@@ -1,28 +1,24 @@
-const express = require('express');
 const Container = require('./container');
-const ErrorHandlingProvider = require('./error-handling/error-handling.provider');
-const Provider = require('./provider');
 
 class App {
-	/**
-	 * @param {Provider[]}
-	 */
 	providers = [];
 
+	container;
+
 	constructor() {
-		this.express = express();
+		this.express = require('express')();
+		this.container = Container.init();
 	}
 
-	get container() {
-		return Container.instance;
+	/**
+	 * @returns {App}
+	 */
+	static get instance() {
+		return Container.get('app');
 	}
 
 	bootstrap() {
 		this.container.register('app', () => this, true);
-	}
-
-	get defaultProviders() {
-		return [ErrorHandlingProvider];
 	}
 
 	/**
@@ -39,13 +35,17 @@ class App {
 	}
 
 	registerProviders(providers) {
-		[...providers, ...this.defaultProviders].forEach(provider =>
-			this.registerProvider(provider)
-		);
+		providers.forEach(provider => this.registerProvider(provider));
 	}
 
 	boot() {
-		this.providers.forEach(p => p.boot());
+		this.providers.forEach(p => {
+			if (typeof p.boot === 'function') p.boot();
+		});
+
+		this.providers.forEach(p => {
+			if (typeof p.booted === 'function') p.booted();
+		});
 	}
 
 	listen(port) {

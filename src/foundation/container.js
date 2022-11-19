@@ -1,18 +1,47 @@
 class Container {
+	/**
+	 * @type {Container}
+	 */
 	static _instance;
 
 	bindings = {};
 
 	/**
-	 * Get the instance of the container (singleton)
+	 * Get the global instance of the container (singleton)
 	 *
 	 * @returns {Container}
 	 */
 	static get instance() {
-		return Container.resolveSingleTon(
+		return Container._resolveSingleTon(
 			Container._instance,
 			() => (Container._instance = new Container())
 		);
+	}
+
+	/**
+	 * Set the global container instance (singleton)
+	 *
+	 * @param {Container} container
+	 */
+	static setGlobalInstance(container) {
+		if (!container instanceof Container) {
+			throw new Error('Invalid container.');
+		}
+
+		Container._instance = container;
+	}
+
+	/**
+	 * Initialize the global container
+	 *
+	 * @returns {Container}
+	 */
+	static init() {
+		const container = new Container();
+
+		Container.setGlobalInstance(container);
+
+		return container;
 	}
 
 	static register(key, factory, singleton = false) {
@@ -32,7 +61,7 @@ class Container {
 	 * @param {Function} factory
 	 * @returns
 	 */
-	static resolveSingleTon(object, factory) {
+	static _resolveSingleTon(object, factory) {
 		return object === undefined ? factory() : object;
 	}
 
@@ -73,7 +102,7 @@ class Container {
 			return bindings[key].factory(this);
 		}
 
-		return Container.resolveSingleTon(
+		return Container._resolveSingleTon(
 			bindings[key].instance,
 			() => (bindings[key].instance = bindings[key].factory(this))
 		);
