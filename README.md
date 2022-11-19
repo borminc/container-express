@@ -23,8 +23,15 @@ The project structure is organized in modules (see `src/modules`), where each mo
 
       ```javascript
       // in Provider.register()
-      this.container.register('auth', container => new AuthService()); // transient
-      this.container.register('auth', container => new AuthService(), true); // singleton
+      this.container.register(
+      	'auth',
+      	container => new AuthService(container.get('db'))
+      ); // transient
+      this.container.register(
+      	'auth',
+      	container => new AuthService(container.get('db')),
+      	true
+      ); // singleton
 
       // somewhere else
       this.container.get('auth'); // returns an instance of AuthService
