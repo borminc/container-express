@@ -1,13 +1,11 @@
 const Container = require('./container');
 
 class App {
-	providers = [];
-
-	container;
-
 	constructor() {
 		this.express = require('express')();
 		this.container = Container.init();
+		this.providers = [];
+		this.hasBooted = false;
 	}
 
 	/**
@@ -17,8 +15,18 @@ class App {
 		return Container.get('app');
 	}
 
+	/**
+	 * Perform any necessary configs to bootstrap the app
+	 */
 	bootstrap() {
 		this.container.register('app', () => this, true);
+	}
+
+	/**
+	 * @param {(new () => Provider)[]} provider
+	 */
+	registerProviders(providers) {
+		providers.forEach(provider => this.registerProvider(provider));
 	}
 
 	/**
@@ -27,27 +35,40 @@ class App {
 	registerProvider(provider) {
 		const p = new provider();
 
-		if (p.register) {
+		if (typeof p.register === 'function') {
 			p.register();
 		}
 
 		this.providers.push(p);
+
+		if (this.hasBooted) {
+			// everything else has has booted as the app has booted,
+			// so now just boot this provider
+			this.bootProvider(p);
+		}
 	}
 
-	registerProviders(providers) {
-		providers.forEach(provider => this.registerProvider(provider));
+	/**
+	 * @param {new () => Provider} provider
+	 */
+	bootProvider(provider) {
+		if (typeof provider.boot === 'function') provider.boot();
+
+		if (typeof provider.booted === 'function') provider.booted();
 	}
 
+	/**
+	 * Boot the app
+	 */
 	boot() {
-		this.providers.forEach(p => {
-			if (typeof p.boot === 'function') p.boot();
-		});
+		this.providers.forEach(p => this.bootProvider(p));
 
-		this.providers.forEach(p => {
-			if (typeof p.booted === 'function') p.booted();
-		});
+		this.hasBooted = true;
 	}
 
+	/**
+	 * @param {string|number} port
+	 */
 	listen(port) {
 		this.express.listen(port, () => {
 			console.log(`Listening on http://localhost:${port}`);
