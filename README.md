@@ -4,7 +4,7 @@ A **_quite opinionated_** starting point for express apps with built-in containe
 
 ### Idea
 
-The idea of this setup to utilize the use of a "container" to resolve dependencies. In practice, this just means that instead of creating class instances when you need their functionalities, you ask the container to provide you with those instances without **_having to care about how to create those instances yourself_**. Containers make it easy to configure your dependencies (which may have many other dependencies, which may also have other dependencies, and so on), register them in the container, and use them throughout the application.
+The idea of this setup to utilize a "container" to resolve dependencies. In practice, this just means that instead of creating class instances when you need their functionalities, you ask the container to provide you with those instances without **_having to care about how to create those instances yourself_**. Containers make it easy to configure your dependencies (which may have many other dependencies, which may also have other dependencies, and so on), register them in the container, and use them throughout the application.
 
 ### Implementation
 
