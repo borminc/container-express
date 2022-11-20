@@ -58,7 +58,12 @@ class App {
 		if (typeof provider.boot === 'function') {
 			await provider.boot();
 		}
+	}
 
+	/**
+	 * @param {Provider} provider
+	 */
+	async bootedProvider(provider) {
 		if (typeof provider.booted === 'function') {
 			await provider.booted();
 		}
@@ -72,7 +77,18 @@ class App {
 			await this.bootProvider(provider);
 		}
 
+		this.booted();
+	}
+
+	/**
+	 * App has booted
+	 */
+	async booted() {
 		this.hasBooted = true;
+
+		for (const provider of this.providers) {
+			await this.bootedProvider(provider);
+		}
 	}
 
 	/**
