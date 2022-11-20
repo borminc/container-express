@@ -1,15 +1,17 @@
 require('dotenv/config');
 const App = require('./foundation/app');
-const ErrorHandlingProvider = require('./foundation/error-handling/error-handling.provider');
-const AuthProvider = require('./modules/auth/auth.provider');
-const DBProvider = require('./modules/db/db.provider');
+const providers = require('./providers');
 
-const app = new App();
+async function boot() {
+	const app = new App();
 
-app.bootstrap();
+	app.bootstrap();
 
-app.registerProviders([DBProvider, ErrorHandlingProvider, AuthProvider]);
+	await app.registerProviders(providers);
 
-app.boot();
+	await app.boot();
 
-app.listen(process.env.APP_PORT || 3000);
+	app.listen(process.env.APP_PORT || 3000);
+}
+
+boot();

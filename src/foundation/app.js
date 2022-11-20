@@ -1,8 +1,9 @@
+const express = require('express');
 const Container = require('./container');
 
 class App {
 	constructor() {
-		this.express = require('express')();
+		this.express = express();
 		this.container = Container.init();
 		this.providers = [];
 		this.hasBooted = false;
@@ -18,25 +19,27 @@ class App {
 	/**
 	 * Perform any necessary configs to bootstrap the app
 	 */
-	bootstrap() {
+	async bootstrap() {
 		this.container.register('app', () => this, true);
 	}
 
 	/**
 	 * @param {(new () => Provider)[]} provider
 	 */
-	registerProviders(providers) {
-		providers.forEach(provider => this.registerProvider(provider));
+	async registerProviders(providers) {
+		for (const provider of providers) {
+			await this.registerProvider(provider);
+		}
 	}
 
 	/**
 	 * @param {new () => Provider} provider
 	 */
-	registerProvider(provider) {
+	async registerProvider(provider) {
 		const p = new provider();
 
 		if (typeof p.register === 'function') {
-			p.register();
+			await p.register();
 		}
 
 		this.providers.push(p);
@@ -44,24 +47,30 @@ class App {
 		if (this.hasBooted) {
 			// everything else has has booted as the app has booted,
 			// so now just boot this provider
-			this.bootProvider(p);
+			await this.bootProvider(p);
 		}
 	}
 
 	/**
-	 * @param {new () => Provider} provider
+	 * @param {Provider} provider
 	 */
-	bootProvider(provider) {
-		if (typeof provider.boot === 'function') provider.boot();
+	async bootProvider(provider) {
+		if (typeof provider.boot === 'function') {
+			await provider.boot();
+		}
 
-		if (typeof provider.booted === 'function') provider.booted();
+		if (typeof provider.booted === 'function') {
+			await provider.booted();
+		}
 	}
 
 	/**
 	 * Boot the app
 	 */
-	boot() {
-		this.providers.forEach(p => this.bootProvider(p));
+	async boot() {
+		for (const provider of this.providers) {
+			await this.bootProvider(provider);
+		}
 
 		this.hasBooted = true;
 	}
