@@ -1,5 +1,5 @@
-const express = require('express');
-const Container = require('./container');
+import express from 'express';
+import Container from './container';
 
 class App {
 	constructor() {
@@ -85,4 +85,4 @@ class App {
 	}
 }
 
-module.exports = App;
+export default App;

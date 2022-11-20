@@ -1,4 +1,4 @@
-const Controller = require('../../foundation/http/controller');
+import Controller from '../../foundation/http/controller';
 
 class AuthController extends Controller {
 	index(req, res) {
@@ -19,4 +19,4 @@ class AuthController extends Controller {
 	}
 }
 
-module.exports = AuthController;
+export default AuthController;

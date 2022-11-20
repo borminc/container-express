@@ -1,4 +1,4 @@
-const Service = require('../service');
+import Service from '../service';
 
 class Middleware extends Service {
 	handle(req, res, next) {
@@ -6,4 +6,4 @@ class Middleware extends Service {
 	}
 }
 
-module.exports = Middleware;
+export default Middleware;

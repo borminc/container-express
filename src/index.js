@@ -1,17 +1,3 @@
-require('dotenv/config');
-const App = require('./foundation/app');
-const providers = require('./providers');
+require = require('esm')(module);
 
-async function boot() {
-	const app = new App();
-
-	app.bootstrap();
-
-	await app.registerProviders(providers);
-
-	await app.boot();
-
-	app.listen(process.env.PORT || 3000);
-}
-
-boot();
+module.exports = require('./server.js');
