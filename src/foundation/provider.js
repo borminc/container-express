@@ -1,8 +1,7 @@
-const express = require('express');
-const Router = express.Router();
-const Controller = require('./http/controller');
-const Middleware = require('./http/middleware');
-const Service = require('./service');
+import express from 'express';
+import Controller from './http/controller';
+import Middleware from './http/middleware';
+import Service from './service';
 
 class Provider extends Service {
 	/**
@@ -122,4 +121,4 @@ class Provider extends Service {
 	}
 }
 
-module.exports = Provider;
+export default Provider;

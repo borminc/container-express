@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize');
+import { Sequelize } from 'sequelize';
 
 const dbConfig = {
 	connection: process.env.DB_CONNECTION,
@@ -22,4 +22,4 @@ const sequelize = new Sequelize(
 	}
 );
 
-module.exports = sequelize;
+export default sequelize;

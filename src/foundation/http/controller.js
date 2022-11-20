@@ -1,5 +1,5 @@
-const Service = require('../service');
+import Service from '../service';
 
 class Controller extends Service {}
 
-module.exports = Controller;
+export default Controller;

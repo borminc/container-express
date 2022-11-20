@@ -1,7 +1,7 @@
-const AuthService = require('./auth.service');
-const Provider = require('../../foundation/provider');
-const AuthController = require('./auth.controller');
-const AuthMiddleware = require('./auth.middleware');
+import AuthService from './auth.service';
+import Provider from '../../foundation/provider';
+import AuthController from './auth.controller';
+import AuthMiddleware from './auth.middleware';
 
 class AuthProvider extends Provider {
 	register() {
@@ -30,4 +30,4 @@ class AuthProvider extends Provider {
 	}
 }
 
-module.exports = AuthProvider;
+export default AuthProvider;

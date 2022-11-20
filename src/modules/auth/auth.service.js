@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const Unauthorized = require('./errors/unauthorized');
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import Unauthorized from './errors/unauthorized';
 
 class AuthService {
 	hashPassword(password) {
@@ -23,4 +23,4 @@ class AuthService {
 	}
 }
 
-module.exports = AuthService;
+export default AuthService;

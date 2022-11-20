@@ -1,4 +1,4 @@
-const App = require('./app');
+import App from './app';
 
 /**
  * Generic "Service" class
@@ -16,4 +16,4 @@ class Service {
 	}
 }
 
-module.exports = Service;
+export default Service;

@@ -1,4 +1,4 @@
-const Provider = require('../provider');
+import Provider from '../provider';
 
 class ErrorHandlingProvider extends Provider {
 	booted() {
@@ -22,4 +22,4 @@ class ErrorHandlingProvider extends Provider {
 	};
 }
 
-module.exports = ErrorHandlingProvider;
+export default ErrorHandlingProvider;

@@ -1,4 +1,4 @@
-const Container = require('../../foundation/container');
+import Container from '../../foundation/container';
 
 class DBFacade {
 	static get getContainerKey() {
@@ -33,4 +33,4 @@ const DB = new Proxy(DBFacade, {
 	},
 });
 
-module.exports = DB;
+export default DB;

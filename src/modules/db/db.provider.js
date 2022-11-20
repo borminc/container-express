@@ -1,9 +1,9 @@
-const Provider = require('../../foundation/provider');
-const DB = require('./db.facade');
+import Provider from '../../foundation/provider';
+import sequelize from './sequelize';
 
 class DBProvider extends Provider {
 	register() {
-		this.container.register('db', container => require('./sequelize'), true);
+		this.container.register('db', container => sequelize, true);
 
 		require('./models');
 	}
@@ -17,4 +17,4 @@ class DBProvider extends Provider {
 	}
 }
 
-module.exports = DBProvider;
+export default DBProvider;

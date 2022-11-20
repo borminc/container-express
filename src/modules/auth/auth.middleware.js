@@ -1,6 +1,6 @@
-const Middleware = require('../../foundation/http/middleware');
-const jwt = require('jsonwebtoken');
-const Unauthorized = require('./errors/unauthorized');
+import Middleware from '../../foundation/http/middleware';
+import jwt from 'jsonwebtoken';
+import Unauthorized from './errors/unauthorized';
 
 class AuthMiddleware extends Middleware {
 	handle(req, res, next) {
@@ -15,4 +15,4 @@ class AuthMiddleware extends Middleware {
 	}
 }
 
-module.exports = AuthMiddleware;
+export default AuthMiddleware;
