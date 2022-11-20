@@ -7,6 +7,7 @@ const dbConfig = {
 	port: process.env.DB_PORT,
 	username: process.env.DB_USERNAME,
 	password: process.env.DB_PASSWORD,
+	logging: process.env.DB_LOGGING === 'true',
 };
 
 const sequelize = new Sequelize(
@@ -17,7 +18,7 @@ const sequelize = new Sequelize(
 		port: dbConfig.port,
 		host: dbConfig.host,
 		dialect: dbConfig.connection,
-		logging: false,
+		logging: dbConfig.logging,
 	}
 );
 

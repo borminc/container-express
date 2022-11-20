@@ -8,12 +8,12 @@ class DBProvider extends Provider {
 		require('./models');
 	}
 
-	boot() {
+	async boot() {
 		const db = this.container.get('db');
 
-		db.authenticate().then(() =>
-			db.sync({ alter: process.env.APP_ENV === 'local' })
-		);
+		await db.authenticate();
+
+		await db.sync({ alter: process.env.APP_ENV === 'local' });
 	}
 }
 
