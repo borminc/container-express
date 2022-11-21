@@ -14,7 +14,6 @@ class DBProvider extends Provider {
 		await db.authenticate();
 
 		await db.sync({
-			force: process.env.APP_ENV === 'local',
 			alter: process.env.APP_ENV === 'local',
 		});
 	}
