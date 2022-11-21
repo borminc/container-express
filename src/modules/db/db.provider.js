@@ -2,10 +2,10 @@ import Provider from '../../foundation/provider';
 import sequelize from './sequelize';
 
 class DBProvider extends Provider {
-	register() {
+	async register() {
 		this.container.register('db', container => sequelize, true);
 
-		require('./models');
+		await import('./models');
 	}
 
 	async boot() {
@@ -13,7 +13,10 @@ class DBProvider extends Provider {
 
 		await db.authenticate();
 
-		await db.sync({ alter: process.env.APP_ENV === 'local' });
+		await db.sync({
+			force: process.env.APP_ENV === 'local',
+			alter: process.env.APP_ENV === 'local',
+		});
 	}
 }
 
